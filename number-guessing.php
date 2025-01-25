@@ -77,6 +77,7 @@ do {
     echo N, N;
 
     echo "Do you want to try again? [yes/no]", N;
+    $restart = false;
     $shouldRestart = trim(fgets(STDIN));
     if (strtolower($shouldRestart) === 'yes') $restart = true;
 } while (
