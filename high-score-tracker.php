@@ -3,15 +3,15 @@
 require_once './DifficultyLevels.php';
 require_once './colorful_message.php';
 
-const FILE_PATH = './high-scores.json';
-const N = "\r\n";
+define('SCORES_FILE_PATH', './high-scores.json');
+define('N', "\r\n");
 
 function checkScore($attempts, $difficulty)
 {
     global $green, $yellow, $red, $cyan;
 
     // Load existing scores
-    $scores = file_exists(FILE_PATH) ? json_decode(file_get_contents(FILE_PATH), true) : [];
+    $scores = file_exists(SCORES_FILE_PATH) ? json_decode(file_get_contents(SCORES_FILE_PATH), true) : [];
 
     // Initialize the difficulty array if not present
     $scores[$difficulty] = $scores[$difficulty] ?? [];
@@ -49,7 +49,7 @@ function checkScore($attempts, $difficulty)
             ];
 
             // Save updated scores to the file
-            file_put_contents(FILE_PATH, json_encode($scores, JSON_PRETTY_PRINT));
+            file_put_contents(SCORES_FILE_PATH, json_encode($scores, JSON_PRETTY_PRINT));
 
             echo colorText("✅ Your score has been saved! 🏆", $green), N;
         } else {

@@ -4,7 +4,24 @@ require_once './high-score-tracker.php';
 require_once './DifficultyLevels.php';
 require_once './colorful_message.php';
 
-const N = "\r\n";
+//------------------------------------------------
+
+$command = $argv[1] ?? null;
+switch ($command) {
+    case '--help':
+        echo "Available commands:", N;
+        echo "  scores:clear  - Deletes the scores file to reset all high scores.", N;
+        exit;
+
+    case 'scores:clear':
+        if (defined('SCORES_FILE_PATH') && file_exists(SCORES_FILE_PATH)) {
+            unlink(SCORES_FILE_PATH);
+            echo "High scores file has been reset successfully. ✅", N;
+        }
+        exit;
+}
+
+//------------------------------------------------
 
 $restart = false;
 
@@ -62,7 +79,7 @@ do {
         if ((int)$ans === $randNum) {
             $difficulty = ($difficultyLvl == 1) ? DifficultyLevels::EASY : (($difficultyLvl == 2) ? DifficultyLevels::MEDIUM : DifficultyLevels::HARD);
             echo colorText("🎉 Congratulations! You guessed the correct number in $attemps attempts. 🎉", $green), N;
-            
+
             // Check if it is a top score
             checkScore($attemps, $difficulty);
             exit;
